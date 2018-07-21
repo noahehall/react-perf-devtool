@@ -1,6 +1,16 @@
 import { getReactPerformanceData } from '../shared/parse'
 import { generateDataFromMeasures } from '../shared/generate'
 
+// function getCurrentTab(callback) {
+//     chrome.tabs.query({
+//         active: true,
+//         currentWindow: true
+//     },
+//     (tabs) => {
+//         callback(tabs[0]);
+//     });
+// }
+
 /**
   This registers an observer that listens to the React performance measurement event.
   It hooks an object containing information about the events and performance measures of React components to the
@@ -37,11 +47,19 @@ const registerObserver = (params = {}, callback) => {
     newMeasures: 0,
     aggregate: params.aggregate
   }
+
   // TODO: Is there any way to polyfill this API ?
   if (window.PerformanceObserver) {
     const { shouldLog, port, components } = params
 
     window.observer = new window.PerformanceObserver(list => {
+      // getCurrentTab((tab) => {
+      //           chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
+      //               if (response) {
+      //                   console.log('\n\n\n\n response is', response)
+      //               } else console.log('\n\n\n\n no response', response)
+      //           });
+      //       });
       const newRawMeasures = list
         .getEntries()
         .concat(window.__REACT_PERF_DEVTOOL_GLOBAL_STORE__.rawMeasures)

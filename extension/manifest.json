@@ -7,7 +7,19 @@
     "A devtool extension for inspecting the performance of React components.",
   "version": "4",
   "devtools_page": "devtools.html",
-
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "js": ["page.js"]
+    }
+  ],
+  "permissions": ["activeTab"],
   "icons": {
     "16": "./icon/RP16.png",
     "48": "./icon/RP48.png",
